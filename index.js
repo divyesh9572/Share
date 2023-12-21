@@ -8,7 +8,6 @@ app.use(cors());
 
 const port = process.env.PORT || 8080;
 let jsonArray = [];
-const tickers = ["^NSEI"];
 async function fetchDataAndConvertToJSON(ticker, interval, startDate, endDate) {
   const startDateString = new Date(startDate);
   const endDateString = new Date(endDate);
@@ -28,6 +27,7 @@ app.get("/api/fetchData/:apiOptions", async (req, res) => {
   const apiOptions = req.params.apiOptions;
   const startDate = req.query.startDate;
   const endDate = req.query.endDate;
+  const tickers = req.query.nameInput;
   let passDays;
   if (apiOptions == "monthly") {
     passDays = "1mo";
@@ -42,10 +42,10 @@ app.get("/api/fetchData/:apiOptions", async (req, res) => {
   console.log(apiOptions);
   console.log(startDate);
   console.log(endDate);
+  console.log(tickers);
+
   try {
-    for (const ticker of tickers) {
-      await fetchDataAndConvertToJSON(ticker, passDays, startDate, endDate);
-    }
+      await fetchDataAndConvertToJSON(tickers, passDays, startDate, endDate);
     res.json({ success: true, data: jsonArray, tickers });
   } catch (error) {
     res.status(500).json({ success: false, error: "Error" });
