@@ -45,13 +45,13 @@ app.get("/api/fetchData/:apiOptions", async (req, res) => {
   console.log(tickers);
 
   try {
-      await fetchDataAndConvertToJSON(tickers, passDays, startDate, endDate);
+    await fetchDataAndConvertToJSON(tickers, passDays, startDate, endDate);
     res.json({ success: true, data: jsonArray, tickers });
   } catch (error) {
     res.status(500).json({ success: false, error: "Error" });
   }
 });
 
-app.listen(port , () => {
+app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
